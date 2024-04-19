@@ -24,37 +24,14 @@
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="8" Background="Black" />
         <DockPanel Grid.Column="2">
             <Label DockPanel.Dock="Top" Content="Paste Box (Text)"/>
+            <Label DockPanel.Dock="Top" FontSize="10" Foreground="#555555" FontStyle="Italic" Content="This shows the default paste result."/>
             <TextBox DockPanel.Dock="Bottom" Margin="2" AcceptsReturn="True" AcceptsTab="True"/>
         </DockPanel>
         <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Width="8" Background="Black" />
         <DockPanel LastChildFill="True" Grid.Column="4">
             <Label DockPanel.Dock="Top" Content="Content Preview"/>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
-                <ComboBox x:Name="DataTypeSelector" Width="150" Margin="2">
-                    <ComboBoxItem Content="Bitmap"/>
-                    <ComboBoxItem Content="CommaSeparatedValue"/>
-                    <ComboBoxItem Content="Dib"/>
-                    <ComboBoxItem Content="Dif"/>
-                    <ComboBoxItem Content="EnhancedMetafile"/>
-                    <ComboBoxItem Content="FileDrop"/>
-                    <ComboBoxItem Content="Html"/>
-                    <ComboBoxItem Content="Locale"/>
-                    <ComboBoxItem Content="MetafilePicture"/>
-                    <ComboBoxItem Content="OemText"/>
-                    <ComboBoxItem Content="Palette"/>
-                    <ComboBoxItem Content="PenData"/>
-                    <ComboBoxItem Content="Riff"/>
-                    <ComboBoxItem Content="Rtf"/>
-                    <ComboBoxItem Content="Serializable"/>
-                    <ComboBoxItem Content="StringFormat"/>
-                    <ComboBoxItem Content="SymbolicLink"/>
-                    <ComboBoxItem Content="Text" IsSelected="True"/>
-                    <ComboBoxItem Content="Tiff"/>
-                    <ComboBoxItem Content="UnicodeText"/>
-                    <ComboBoxItem Content="WaveAudio"/>
-                    <ComboBoxItem Content="Xaml"/>
-                    <ComboBoxItem Content="XamlPackage"/>
-                </ComboBox>
+                <ComboBox x:Name="DataTypeSelector" Width="150" Margin="2"/>
                 <Button Content="Get" MinWidth="80" Margin="5" Click="GetDataPreviewButton_Click"/>
                 <Button Content="Clear" MinWidth="80" Margin="5" Click="ClearDataPreviewButton_Click"/>
             </StackPanel>

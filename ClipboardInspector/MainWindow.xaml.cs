@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ClipboardInspector
@@ -12,11 +13,15 @@ namespace ClipboardInspector
         public MainWindow()
         {
             InitializeComponent();
+
+            foreach (var item in DataTypes.OrderBy(t => t))
+                DataTypeSelector.Items.Add(item);
+            DataTypeSelector.SelectedItem = DataFormats.Text;
         }
         #endregion
 
         #region Data
-        public HashSet<string> DataTypes = [
+        public static HashSet<string> DataTypes = [
             DataFormats.Bitmap,
             DataFormats.XamlPackage,
             DataFormats.Xaml,
@@ -53,22 +58,35 @@ namespace ClipboardInspector
                 Contains File Drop List: {Clipboard.ContainsFileDropList()}
                 Contains Image: {Clipboard.ContainsImage()}
                 Contains Data:
-            {string.Join("\n", DataTypes.OrderBy(t => Clipboard.ContainsData(t)).Select(t => $"        {t} [{Clipboard.ContainsData(t)}]"))}
+            {string.Join("\n", DataTypes.Where(Clipboard.ContainsData).OrderBy(t => t).Select(t => $"        {t} [{Clipboard.ContainsData(t)}]"))}
+                Others:
+            {string.Join("\n", DataTypes.Where(t => !Clipboard.ContainsData(t)).OrderBy(t => t).Select(t => $"        {t}"))}
             """;
+
+            DataTypeSelector.Items.Clear();
+            foreach (var item in DataTypes.Where(Clipboard.ContainsData).OrderBy(t => t))
+                DataTypeSelector.Items.Add(item);
+            DataTypeSelector.SelectedItem = DataTypeSelector.Items[0];
         }
         private void GetDataPreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            string dataType = (string)(DataTypeSelector.SelectedItem as ComboBoxItem).Content;
-            switch (dataType)
+            string dataType = DataTypeSelector.SelectedItem as string;
+            if (!Clipboard.ContainsData(dataType))
             {
-                case nameof(DataFormats.Text):
-                case nameof(DataFormats.Locale):
-                    if (Clipboard.ContainsData(dataType))
-                        ContentPreviewTextBox.Text = Clipboard.GetData(dataType).ToString();
-                    break;
-                default:
-                    break;
+                ContentPreviewTextBox.Text = "Invalid. Data doesn't exist.";
+                return;
             }
+
+            if (dataType == DataFormats.Text 
+                || dataType == DataFormats.Html
+                || dataType == DataFormats.UnicodeText 
+                || dataType == DataFormats.Rtf 
+                || dataType == DataFormats.OemText
+                || dataType == DataFormats.CommaSeparatedValue
+            )
+                ContentPreviewTextBox.Text = Clipboard.GetData(dataType).ToString();
+            else
+                ContentPreviewTextBox.Text = "Not handled.";
         }
         private void ClearDataPreviewButton_Click(object sender, RoutedEventArgs e)
         {

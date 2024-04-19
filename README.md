@@ -7,3 +7,4 @@ This is useful when developing features and inspecting things like in/from Excel
 ## Version Changelog
 
 * v0.1: First release.
+* v0.2: Enhance clipboard data type preview.
