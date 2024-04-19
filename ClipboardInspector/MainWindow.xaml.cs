@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace ClipboardInspector
 {
@@ -14,10 +15,35 @@ namespace ClipboardInspector
         }
         #endregion
 
-        #region Events
-
+        #region Data
+        public HashSet<string> DataTypes = [
+            DataFormats.Bitmap,
+            DataFormats.XamlPackage,
+            DataFormats.Xaml,
+            DataFormats.WaveAudio,
+            DataFormats.UnicodeText,
+            DataFormats.Tiff,
+            DataFormats.Text,
+            DataFormats.SymbolicLink,
+            DataFormats.StringFormat,
+            DataFormats.Serializable,
+            DataFormats.Rtf,
+            DataFormats.Riff,
+            DataFormats.Palette,
+            DataFormats.OemText,
+            DataFormats.MetafilePicture,
+            DataFormats.Locale,
+            DataFormats.Html,
+            DataFormats.FileDrop,
+            DataFormats.EnhancedMetafile,
+            DataFormats.Dif,
+            DataFormats.Dib,
+            DataFormats.CommaSeparatedValue,
+            DataFormats.PenData
+        ];
         #endregion
 
+        #region Events
         private void Window_Activated(object sender, EventArgs e)
         {
             Stats.Text = $"""
@@ -26,31 +52,28 @@ namespace ClipboardInspector
                 Contains Text: {Clipboard.ContainsText()}
                 Contains File Drop List: {Clipboard.ContainsFileDropList()}
                 Contains Image: {Clipboard.ContainsImage()}
-                Contains Data: 
-                    Bitmap [{Clipboard.ContainsData(DataFormats.Bitmap)}]
-                    XamlPackage [{Clipboard.ContainsData(DataFormats.XamlPackage)}]
-                    Xaml [{Clipboard.ContainsData(DataFormats.Xaml)}]
-                    WaveAudio [{Clipboard.ContainsData(DataFormats.WaveAudio)}]
-                    UnicodeText [{Clipboard.ContainsData(DataFormats.UnicodeText)}]
-                    Tiff [{Clipboard.ContainsData(DataFormats.Tiff)}]
-                    Text [{Clipboard.ContainsData(DataFormats.Text)}]
-                    SymbolicLink [{Clipboard.ContainsData(DataFormats.SymbolicLink)}]
-                    StringFormat [{Clipboard.ContainsData(DataFormats.StringFormat)}]
-                    Serializable [{Clipboard.ContainsData(DataFormats.Serializable)}]
-                    Rtf [{Clipboard.ContainsData(DataFormats.Rtf)}]
-                    Riff [{Clipboard.ContainsData(DataFormats.Riff)}]
-                    Palette [{Clipboard.ContainsData(DataFormats.Palette)}]
-                    OemText [{Clipboard.ContainsData(DataFormats.OemText)}]
-                    MetafilePicture [{Clipboard.ContainsData(DataFormats.MetafilePicture)}]
-                    Locale [{Clipboard.ContainsData(DataFormats.Locale)}]
-                    Html [{Clipboard.ContainsData(DataFormats.Html)}]
-                    FileDrop [{Clipboard.ContainsData(DataFormats.FileDrop)}]
-                    EnhancedMetafile [{Clipboard.ContainsData(DataFormats.EnhancedMetafile)}]
-                    Dif [{Clipboard.ContainsData(DataFormats.Dif)}]
-                    Dib [{Clipboard.ContainsData(DataFormats.Dib)}]
-                    CommaSeparatedValue [{Clipboard.ContainsData(DataFormats.CommaSeparatedValue)}]
-                    PenData [{Clipboard.ContainsData(DataFormats.PenData)}]
+                Contains Data:
+            {string.Join("\n", DataTypes.OrderBy(t => Clipboard.ContainsData(t)).Select(t => $"        {t} [{Clipboard.ContainsData(t)}]"))}
             """;
         }
+        private void GetDataPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            string dataType = (string)(DataTypeSelector.SelectedItem as ComboBoxItem).Content;
+            switch (dataType)
+            {
+                case nameof(DataFormats.Text):
+                case nameof(DataFormats.Locale):
+                    if (Clipboard.ContainsData(dataType))
+                        ContentPreviewTextBox.Text = Clipboard.GetData(dataType).ToString();
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void ClearDataPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentPreviewTextBox.Clear();
+        }
+        #endregion
     }
 }
