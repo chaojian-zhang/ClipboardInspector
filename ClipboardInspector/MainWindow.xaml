@@ -5,19 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClipboardInspector"
         mc:Ignorable="d"
-        Title="Clipboard Inspector" Height="450" Width="800">
+        Title="Clipboard Inspector" Height="450" Width="800"
+        Activated="Window_Activated">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <DockPanel>
-            
-        </DockPanel>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" Background="Black" />
-        <DockPanel>
-            
-        </DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <TextBlock x:Name="Stats" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+
+            </DockPanel>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" Background="Black" />
+            <DockPanel LastChildFill="True" Grid.Column="2">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
+                    <ComboBox SelectedItem="Text" Width="150" Margin="2">
+                        <ComboBoxItem Content="Bitmap"/>
+                        <ComboBoxItem Content="XamlPackage"/>
+                        <ComboBoxItem Content="Xaml"/>
+                        <ComboBoxItem Content="WaveAudio"/>
+                        <ComboBoxItem Content="UnicodeText"/>
+                        <ComboBoxItem Content="Tiff"/>
+                        <ComboBoxItem Content="Text"/>
+                        <ComboBoxItem Content="SymbolicLink"/>
+                        <ComboBoxItem Content="StringFormat"/>
+                        <ComboBoxItem Content="Serializable"/>
+                        <ComboBoxItem Content="Rtf"/>
+                        <ComboBoxItem Content="Riff"/>
+                        <ComboBoxItem Content="Palette"/>
+                        <ComboBoxItem Content="OemText"/>
+                        <ComboBoxItem Content="MetafilePicture"/>
+                        <ComboBoxItem Content="Locale"/>
+                        <ComboBoxItem Content="Html"/>
+                        <ComboBoxItem Content="FileDrop"/>
+                        <ComboBoxItem Content="EnhancedMetafile"/>
+                        <ComboBoxItem Content="Dif"/>
+                        <ComboBoxItem Content="Dib"/>
+                        <ComboBoxItem Content="CommaSeparatedValue"/>
+                        <ComboBoxItem Content="PenData"/>
+                    </ComboBox>
+                    <Button Content="Get" MinWidth="80" Margin="5"/>
+                </StackPanel>
+                <TextBox IsReadOnly="True"></TextBox>
+            </DockPanel>
+        </Grid>
     </Grid>
 </Window>
